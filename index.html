@@ -1,117 +1,76 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gerador de GTIN</title>
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #fff;
-            color: #333;
-            text-align: center;
-            margin: 0;
-            padding: 0;
-        }
-
-        .header {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            background-color: #fff;
-            padding: 10px 0;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            z-index: 1000;
-        }
-
-        .logo {
-            margin-bottom: 10px;
-            width: 120px;
-        }
-
-        h1 {
-            font-size: 1.5rem;
-            color: #ff3a5f;
-            margin: 0;
-        }
-
-        button {
-            padding: 12px 24px;
-            font-size: 16px;
-            font-weight: bold;
-            color: white;
-            background-color: #45476e;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-            margin-top: 10px;
-        }
-
-        button:hover {
-            background-color: #36385a;
-            transform: scale(1.05);
-        }
-
-        .content {
-            margin-top: 150px; /* Espaço para compensar o header fixo */
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        #output {
-            margin-top: 20px;
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: #333;
-            background: #ffe5eb;
-            padding: 10px 20px;
-            border-radius: 8px;
-            display: inline-block;
-        }
-
-        #recent-codes {
-            margin-top: 20px;
-            text-align: left;
-            max-width: 400px;
-            width: 100%;
-        }
-
-        #recent-codes ul {
-            list-style: none;
-            padding: 0;
-            color: #333;
-        }
-
-        #recent-codes li {
-            background: #ffccd4;
-            margin: 5px 0;
-            padding: 8px;
-            border-radius: 5px;
-        }
-
-        footer {
-            margin-top: 40px;
-            font-size: 0.9rem;
-            color: #777;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gerador de GTIN</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f9f9f9;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      flex-direction: column;
+    }
+    #output {
+      font-size: 1.5em;
+      margin: 20px 0;
+    }
+    input, button {
+      padding: 10px;
+      margin: 10px;
+      font-size: 1em;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    button {
+      background-color: #45476e;
+      color: white;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #6a7b9c;
+    }
+  </style>
 </head>
 <body>
-    <header class="header">
-        <img class="logo" src="https://www.ilumicom.com.br/media/logo/websites/1/logo-alta_1.png" alt="Ilumicom Logo">
-        <h1>Gerador de GTIN</h1>
-        <button onclick="gerarGTIN()">Gerar GTIN</button>
-    </header>
-    <div class="content">
-        <div id="output" style="display: none;"></div>
-        <div id="recent-codes" style="display: none;">
-            <h2>Últimos 5 Códigos Gerados:</h2>
-            <ul id="codes-list"></ul>
-        </div>
-        <footer>Desenvolvido com ❤️ para a Ilumicom</footer>
-    </div>
-    <script src="script.js"></script>
+  <h1>Gerador de GTIN</h1>
+  <label for="gtinBase">Digite os 12 primeiros dígitos do GTIN (sem o dígito verificador):</label>
+  <input type="text" id="gtinBase" maxlength="12" placeholder="Ex: 789803878037">
+  <button onclick="gerarGTIN()">Gerar GTIN</button>
+  <div id="output"></div>
+  
+  <script>
+    function gerarGTIN() {
+      const base = document.getElementById("gtinBase").value;
+      if (base.length !== 12) {
+        document.getElementById("output").innerHTML = "Por favor, insira exatamente 12 dígitos.";
+        return;
+      }
+      
+      // Passo 1: Calcular o dígito verificador
+      let soma = 0;
+      let multiplicador = 1;
+
+      for (let i = 0; i < base.length; i++) {
+        soma += parseInt(base[i]) * multiplicador;
+        multiplicador = (multiplicador === 1) ? 3 : 1; // Alternar entre 1 e 3
+      }
+
+      // Passo 2: Calcular o módulo 10
+      let modulo10 = soma % 10;
+      let digitoVerificador = modulo10 === 0 ? 0 : 10 - modulo10;
+
+      // Passo 3: Concatenar o dígito verificador no final
+      const gtinCompleto = base + digitoVerificador;
+
+      // Exibir o resultado
+      document.getElementById("output").innerHTML = `GTIN Gerado: ${gtinCompleto}`;
+    }
+  </script>
 </body>
 </html>
