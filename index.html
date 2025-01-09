@@ -16,6 +16,9 @@
       height: 100vh;
       flex-direction: column;
     }
+    header {
+      text-align: center;
+    }
     #output {
       font-size: 1.5em;
       margin: 20px 0;
@@ -35,13 +38,36 @@
     button:hover {
       background-color: #6a7b9c;
     }
+    .logo {
+      width: 200px;
+      margin: 20px;
+    }
+    footer {
+      margin-top: 20px;
+      font-size: 1em;
+      color: #45476e;
+    }
+    footer a {
+      color: #ff3a5f;
+      text-decoration: none;
+    }
+    footer a:hover {
+      text-decoration: underline;
+    }
   </style>
 </head>
 <body>
-  <h1>Gerador de GTIN</h1>
-  <label for="gtinBase">Clique para gerar um código GTIN válido</label>
+  <header>
+    <img src="https://www.ilumicom.com.br/media/logo/websites/1/logo-alta_1.png" alt="Ilumicom" class="logo">
+    <h1 style="color: #ff3a5f;">Gerador de GTIN</h1>
+  </header>
+  <label for="gtinBase" style="color: #45476e;">Clique para gerar um código GTIN válido</label>
   <button onclick="gerarGTIN()">Gerar GTIN</button>
   <div id="output"></div>
+
+  <footer>
+    <p>Desenvolvido com ❤️ para <a href="https://www.ilumicom.com.br" target="_blank">Ilumicom</a></p>
+  </footer>
 
   <script>
     function gerarGTIN() {
