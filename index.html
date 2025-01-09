@@ -54,6 +54,25 @@
     footer a:hover {
       text-decoration: underline;
     }
+    #gtinField {
+      width: 250px;
+      font-size: 1.2em;
+      text-align: center;
+      padding: 10px;
+      margin: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      background-color: #f9f9f9;
+    }
+    .copy-btn {
+      background-color: #ff3a5f;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    .copy-btn:hover {
+      background-color: #d83a5f;
+    }
   </style>
 </head>
 <body>
@@ -63,7 +82,11 @@
   </header>
   <label for="gtinBase" style="color: #45476e;">Clique para gerar um código GTIN válido</label>
   <button onclick="gerarGTIN()">Gerar GTIN</button>
-  <div id="output"></div>
+
+  <div id="output">
+    <input type="text" id="gtinField" readonly>
+    <button class="copy-btn" onclick="copiarCodigo()">Copiar</button>
+  </div>
 
   <footer>
     <p>Desenvolvido com ❤️ para <a href="https://www.ilumicom.com.br" target="_blank">Ilumicom</a></p>
@@ -93,8 +116,16 @@
       // Passo 4: Concatenar o dígito verificador no final
       const gtinCompleto = gtinBase + digitoVerificador;
 
-      // Exibir o resultado
-      document.getElementById("output").innerHTML = `GTIN Gerado: ${gtinCompleto}`;
+      // Exibir o resultado no campo de texto
+      document.getElementById("gtinField").value = gtinCompleto;
+    }
+
+    // Função para copiar o código GTIN
+    function copiarCodigo() {
+      const gtinField = document.getElementById("gtinField");
+      gtinField.select();
+      gtinField.setSelectionRange(0, 99999); // Para dispositivos móveis
+      document.execCommand("copy");
     }
   </script>
 </body>
