@@ -39,34 +39,33 @@
 </head>
 <body>
   <h1>Gerador de GTIN</h1>
-  <label for="gtinBase">Digite os 12 primeiros dígitos do GTIN (sem o dígito verificador):</label>
-  <input type="text" id="gtinBase" maxlength="12" placeholder="Ex: 789803878037">
+  <label for="gtinBase">Clique para gerar um código GTIN válido</label>
   <button onclick="gerarGTIN()">Gerar GTIN</button>
   <div id="output"></div>
-  
+
   <script>
     function gerarGTIN() {
-      const base = document.getElementById("gtinBase").value;
-      if (base.length !== 12) {
-        document.getElementById("output").innerHTML = "Por favor, insira exatamente 12 dígitos.";
-        return;
+      // Passo 1: Gerar os 12 primeiros dígitos aleatórios
+      let gtinBase = '';
+      for (let i = 0; i < 12; i++) {
+        gtinBase += Math.floor(Math.random() * 10); // Gerar números de 0 a 9
       }
-      
-      // Passo 1: Calcular o dígito verificador
+
+      // Passo 2: Calcular o dígito verificador
       let soma = 0;
       let multiplicador = 1;
 
-      for (let i = 0; i < base.length; i++) {
-        soma += parseInt(base[i]) * multiplicador;
+      for (let i = 0; i < gtinBase.length; i++) {
+        soma += parseInt(gtinBase[i]) * multiplicador;
         multiplicador = (multiplicador === 1) ? 3 : 1; // Alternar entre 1 e 3
       }
 
-      // Passo 2: Calcular o módulo 10
+      // Passo 3: Calcular o módulo 10
       let modulo10 = soma % 10;
       let digitoVerificador = modulo10 === 0 ? 0 : 10 - modulo10;
 
-      // Passo 3: Concatenar o dígito verificador no final
-      const gtinCompleto = base + digitoVerificador;
+      // Passo 4: Concatenar o dígito verificador no final
+      const gtinCompleto = gtinBase + digitoVerificador;
 
       // Exibir o resultado
       document.getElementById("output").innerHTML = `GTIN Gerado: ${gtinCompleto}`;
